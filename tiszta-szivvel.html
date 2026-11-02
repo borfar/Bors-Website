@@ -1,0 +1,111 @@
+<title>Bors Faragó</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Spectral:ital@0;1&family=IBM+Plex+Mono&display=swap&subset=latin-ext">
+<style>
+/* Layout: a single narrow column; name, one line, then the poem. */
+:root {
+  --paper: #ffffff;
+  --ink: #1a2330;
+  --muted: #6b7280;
+  --rule: #e2e4e7;
+  --accent: #9e2f27;
+  --display: "Libre Caslon Display", "Bodoni 72", Didot, Georgia, serif;
+  --body: "Spectral", Georgia, "Times New Roman", serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  line-height: 1.6;
+}
+main {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: clamp(3rem, 10vw, 6rem) 4rem;
+  display: grid;
+  gap: clamp(3rem, 8vw, 4.5rem);
+}
+header { display: grid; gap: 0.5rem; }
+h1 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(3rem, 13vw, 6rem);
+  line-height: 1;
+  margin: 0;
+}
+.sub {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0;
+}
+.poem { display: grid; gap: 1.25rem; border-top: 1px solid var(--rule); padding-top: 2rem; }
+.poem h2 {
+  margin: 0;
+  font-family: var(--body);
+  font-weight: 400;
+  font-size: 1.05rem;
+}
+.poem h2 span { color: var(--accent); font-style: italic; }
+#poem {
+  font-family: var(--display);
+  font-size: clamp(1.25rem, 3.4vw, 1.55rem);
+  line-height: 1.55;
+  white-space: pre-wrap;
+  min-height: 12rem;
+  outline: none;
+  overflow-wrap: anywhere;
+}
+#poem:empty {
+  border: 1px dashed var(--rule);
+  border-radius: 2px;
+  padding: 1.25rem;
+}
+#poem:empty::before {
+  content: attr(data-placeholder);
+  color: var(--muted);
+  font-family: var(--body);
+  font-style: italic;
+  font-size: 1rem;
+}
+#poem:focus-visible { box-shadow: 0 0 0 1px var(--accent); }
+</style>
+
+<main>
+  <header>
+    <h1>Bors Faragó</h1>
+    <p class="sub">Personal website</p>
+  </header>
+
+  <section class="poem" aria-label="Poem">
+    <h2>József Attila · <span>Hazám</span></h2>
+    <!-- PASTE THE POEM HERE: put the text inside the div below (line breaks are kept), then delete contenteditable. -->
+    <div id="poem" lang="hu" contenteditable="true" spellcheck="false" data-placeholder="Paste the poem here."></div>
+  </section>
+</main>
+
+<script>
+(function () {
+  var el = document.getElementById('poem');
+  var KEY = 'hazam-poem-text';
+  try { var s = localStorage.getItem(KEY); if (s) el.textContent = s; } catch (e) {}
+  el.addEventListener('paste', function (e) {
+    if (!e.clipboardData) return;
+    e.preventDefault();
+    document.execCommand('insertText', false, e.clipboardData.getData('text/plain'));
+  });
+  el.addEventListener('input', function () {
+    if (!el.textContent.trim()) el.textContent = '';
+    try { localStorage.setItem(KEY, el.innerText); } catch (e) {}
+  });
+})();
+</script>
