@@ -1,10 +1,14 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bors Faragó</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Personal website of Bors Faragó.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Spectral:ital@0;1&family=IBM+Plex+Mono&display=swap&subset=latin-ext">
 <style>
-/* Layout: a single narrow column; name, one line, then the poem. */
 :root {
   --paper: #ffffff;
   --ink: #1a2330;
@@ -18,6 +22,7 @@
 }
 * { box-sizing: border-box; }
 body {
+  margin: 0;
   background: var(--paper);
   color: var(--ink);
   font-family: var(--body);
@@ -26,9 +31,7 @@ body {
 main {
   max-width: 40rem;
   margin: 0 auto;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: clamp(3rem, 10vw, 6rem) 4rem;
+  padding: clamp(3rem, 10vw, 6rem) 16px 4rem;
   display: grid;
   gap: clamp(3rem, 8vw, 4.5rem);
 }
@@ -60,52 +63,23 @@ h1 {
   font-family: var(--display);
   font-size: clamp(1.25rem, 3.4vw, 1.55rem);
   line-height: 1.55;
-  white-space: pre-wrap;
-  min-height: 12rem;
-  outline: none;
-  overflow-wrap: anywhere;
+  white-space: pre-line;
+  margin: 0;
 }
-#poem:empty {
-  border: 1px dashed var(--rule);
-  border-radius: 2px;
-  padding: 1.25rem;
-}
-#poem:empty::before {
-  content: attr(data-placeholder);
-  color: var(--muted);
-  font-family: var(--body);
-  font-style: italic;
-  font-size: 1rem;
-}
-#poem:focus-visible { box-shadow: 0 0 0 1px var(--accent); }
 </style>
-
+</head>
+<body>
 <main>
   <header>
     <h1>Bors Faragó</h1>
     <p class="sub">Personal website</p>
   </header>
-
   <section class="poem" aria-label="Poem">
     <h2>József Attila · <span>Hazám</span></h2>
-    <!-- PASTE THE POEM HERE: put the text inside the div below (line breaks are kept), then delete contenteditable. -->
-    <div id="poem" lang="hu" contenteditable="true" spellcheck="false" data-placeholder="Paste the poem here."></div>
+    <div id="poem" lang="hu">
+PASTE THE POEM HERE
+    </div>
   </section>
 </main>
-
-<script>
-(function () {
-  var el = document.getElementById('poem');
-  var KEY = 'hazam-poem-text';
-  try { var s = localStorage.getItem(KEY); if (s) el.textContent = s; } catch (e) {}
-  el.addEventListener('paste', function (e) {
-    if (!e.clipboardData) return;
-    e.preventDefault();
-    document.execCommand('insertText', false, e.clipboardData.getData('text/plain'));
-  });
-  el.addEventListener('input', function () {
-    if (!el.textContent.trim()) el.textContent = '';
-    try { localStorage.setItem(KEY, el.innerText); } catch (e) {}
-  });
-})();
-</script>
+</body>
+</html>
